@@ -36,7 +36,7 @@ export const anonplyScreen: FrameHandler = async (c: CustomFrameContext) => {
             ...replyAnonStyles
           }}
         >
-          <text>\\ reply,</text>
+          <text>\\ cast,</text>
           <text style={{ ...anonGradientStyles }}>\\ anon</text>
         </div>
         <div
@@ -58,6 +58,7 @@ export const anonplyScreen: FrameHandler = async (c: CustomFrameContext) => {
     imageOptions: { width: 1200, height: 630 },
     intents: [
       <TextInput placeholder='🗣️'></TextInput>,
+      <Button action="/casted">4n0n-cast</Button>,
       <Button action="/sent">4n0n-ply</Button>
     ]
   })
