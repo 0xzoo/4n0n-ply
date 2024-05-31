@@ -25,18 +25,6 @@ export const castedScreen: FrameHandler = async (c: CustomFrameContext) => {
   const inputText = c.inputText as string
   const castHash = c.frameData?.castId.hash as string
   const { channel } = await getCastChannel(castHash) // deal with error?
-  // const messageHash = c.frameData?.messageHash
-  // console.log('castHash', castHash)
-  // console.log('messageHash', messageHash)
-  // let success = true
-
-  // const getOptions = {
-  //   method: 'GET',
-  //   headers: {
-  //     accept: 'application/json',
-  //     api_key: NEYNAR_API_KEY
-  //   }
-  // }
 
   let bodyOptions: PostBodyOptions = {
     signer_uuid: SIGNER_UUID,
@@ -56,26 +44,7 @@ export const castedScreen: FrameHandler = async (c: CustomFrameContext) => {
   }
 
   try {
-    // const rootParentUrl: string = await fetch(`https://api.neynar.com/v2/farcaster/cast?identifier=${castHash}&type=hash`, getOptions)
-    //   .then(response => response.json())
-    //   .then(jsonResponse => jsonResponse.cast.root_parent_url)
-    //   .catch(err => { throw (err) })
-
-    // const channel = rootParentUrl.length > 31 ? rootParentUrl.slice(31) : null
-    // console.log('channel', channel)
-
-    // let bodyOptions: PostBodyOptions = {
-    //   signer_uuid: SIGNER_UUID,
-    //   text: inputText,
-    //   // parent: rootParentUrl
-    // }
-    // if (channel) bodyOptions.channel_id = channel
-
     await fetch('https://api.neynar.com/v2/farcaster/cast', postOptions)
-      // .then(response => response.json())
-      // .then(response => {
-      //   console.log('jsonRes', response)
-      // })
       .catch(err => { throw (err) })
 
     return c.res({
@@ -121,12 +90,10 @@ export const castedScreen: FrameHandler = async (c: CustomFrameContext) => {
         </div>
       ),
       imageOptions: { width: 1200, height: 630 },
-      // imageAspectRatio: '1:1',
       intents: []
     })
   } catch (err) {
-    // success = false
-    console.log('fetch err', err)
+    // console.log('fetch err', err)
     // throw (err)
 
     return c.res({

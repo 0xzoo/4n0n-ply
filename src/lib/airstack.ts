@@ -6,18 +6,6 @@ import { AIRSTACK_API_KEY } from "./key"
 
 init(AIRSTACK_API_KEY, { env: "prod" })
 
-interface CastChannelResponse {
-  "data": {
-    "FarcasterCasts": {
-      "Cast": [
-        {
-          "channel": null
-        }
-      ]
-    }
-  }
-}
-
 export async function getCastChannel(castHash: string) {
   const query = `
     query MyQuery($castHash: String!) {
