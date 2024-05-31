@@ -8,6 +8,7 @@ import { serveStatic } from 'frog/serve-static'
 import { AIRSTACK_API_KEY } from './lib/key'
 import { anonplyScreen } from './screens/4n0nply'
 import { addAnonplyScreen } from './screens/add-4n0nply'
+import { castedScreen } from './screens/casted'
 import { sentScreen } from './screens/sent'
 
 export type Env = {
@@ -48,6 +49,7 @@ export const app = new Frog<FrogOptions>({
 
 app.frame('/add', addAnonplyScreen)
 app.frame('/frame', anonplyScreen)
+app.frame('/casted', castedScreen)
 app.frame('/sent', sentScreen)
 
 app.castAction(
