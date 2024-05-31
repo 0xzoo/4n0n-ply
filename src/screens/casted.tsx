@@ -13,56 +13,63 @@ import {
 } from '../lib/styles'
 import { CustomFrameContext } from '..'
 import { NEYNAR_API_KEY, SIGNER_UUID } from '../lib/key'
+import { getCastChannel } from '../lib/airstack'
 
 type PostBodyOptions = {
   signer_uuid: string,
   text: string,
-  parent: string,
   channel_id?: string
 }
 
 export const castedScreen: FrameHandler = async (c: CustomFrameContext) => {
   const inputText = c.inputText as string
   const castHash = c.frameData?.castId.hash as string
+  const { channel } = await getCastChannel(castHash) // deal with error?
   // const messageHash = c.frameData?.messageHash
   // console.log('castHash', castHash)
   // console.log('messageHash', messageHash)
   // let success = true
 
-  const getOptions = {
-    method: 'GET',
+  // const getOptions = {
+  //   method: 'GET',
+  //   headers: {
+  //     accept: 'application/json',
+  //     api_key: NEYNAR_API_KEY
+  //   }
+  // }
+
+  let bodyOptions: PostBodyOptions = {
+    signer_uuid: SIGNER_UUID,
+    text: inputText,
+  }
+  if (channel) bodyOptions.channel_id = channel.channelId
+
+  const postOptions = {
+    method: 'POST',
     headers: {
       accept: 'application/json',
-      api_key: NEYNAR_API_KEY
-    }
+      api_key: NEYNAR_API_KEY,
+      'content-type': 'application/json',
+      'signer_uuid': SIGNER_UUID
+    },
+    body: JSON.stringify(bodyOptions)
   }
 
   try {
-    const rootParentUrl: string = await fetch(`https://api.neynar.com/v2/farcaster/cast?identifier=${castHash}&type=hash`, getOptions)
-      .then(response => response.json())
-      .then(jsonResponse => jsonResponse.cast.root_parent_url)
-      .catch(err => { throw (err) })
+    // const rootParentUrl: string = await fetch(`https://api.neynar.com/v2/farcaster/cast?identifier=${castHash}&type=hash`, getOptions)
+    //   .then(response => response.json())
+    //   .then(jsonResponse => jsonResponse.cast.root_parent_url)
+    //   .catch(err => { throw (err) })
 
     // const channel = rootParentUrl.length > 31 ? rootParentUrl.slice(31) : null
     // console.log('channel', channel)
 
-    let bodyOptions: PostBodyOptions = {
-      signer_uuid: SIGNER_UUID,
-      text: inputText,
-      parent: rootParentUrl
-    }
+    // let bodyOptions: PostBodyOptions = {
+    //   signer_uuid: SIGNER_UUID,
+    //   text: inputText,
+    //   // parent: rootParentUrl
+    // }
     // if (channel) bodyOptions.channel_id = channel
-
-    const postOptions = {
-      method: 'POST',
-      headers: {
-        accept: 'application/json',
-        api_key: NEYNAR_API_KEY,
-        'content-type': 'application/json',
-        'signer_uuid': SIGNER_UUID
-      },
-      body: JSON.stringify(bodyOptions)
-    }
 
     await fetch('https://api.neynar.com/v2/farcaster/cast', postOptions)
       // .then(response => response.json())

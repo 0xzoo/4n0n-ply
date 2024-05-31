@@ -40,7 +40,7 @@ export const addAnonplyScreen: FrameHandler = async (c: CustomFrameContext) => {
             <span style={{ ...anonGradientStyles, marginBottom: '20px' }}>4n0n-ply</span>
           </text>
           <text style={{ margin: 0, padding: 0 }}>
-            reply to any cast with
+            to cast or reply to a cast with
           </text>
           <text style={{ ...anonGradientStyles, marginLeft: '120px', marginTop: '20px' }}>
             4n0n-bot
